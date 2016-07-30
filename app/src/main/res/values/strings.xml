@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">The New York Times - Articles</string>
+    <string name="enter_search_query">Enter search query</string>
+    <string name="search">Search</string>
 </resources>
