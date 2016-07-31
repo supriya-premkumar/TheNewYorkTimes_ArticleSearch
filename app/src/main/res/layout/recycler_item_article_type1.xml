@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="10dp">
     <ImageView
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:id="@+id/ivImage"
+        android:id="@+id/ivImage1"
         tools:src = "@mipmap/ic_launcher"
         android:scaleType="center"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvTitle1"
         android:maxLines="2"
         android:ellipsize="end"
         tools:text = "Hello Android!"/>
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSnippet1"
+        android:maxLines="6"
+        android:ellipsize="end"/>
+</RelativeLayout>

@@ -1,11 +1,15 @@
 package me.supriyapremkumar.thenewyorktimes_articles.activities;
 
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,7 +33,7 @@ public class MainArticleSearchActivity extends AppCompatActivity {
     Button btnSearch;
     //RecyclerView rvArticles;
 
-    ArrayList<Article> articles = new ArrayList<>();
+    ArrayList<Object> articles = new ArrayList<>();
     RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, articles);
 
     @Override
@@ -38,21 +42,54 @@ public class MainArticleSearchActivity extends AppCompatActivity {
         setContentView(R.layout.main_article_search_activity);
 
         RecyclerView rvArticles = (RecyclerView) findViewById(R.id.rvArticles);
-        rvArticles.setLayoutManager(new LinearLayoutManager(this));
+
+        StaggeredGridLayoutManager gridLayoutManager =
+                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        rvArticles.setLayoutManager(gridLayoutManager);
         rvArticles.setAdapter(adapter);
 
 
-        etQuery = (EditText) findViewById(R.id.etquery);
-        btnSearch = (Button) findViewById(R.id.btnSearch);
+        //etQuery = (EditText) findViewById(R.id.etquery);
+        //btnSearch = (Button) findViewById(R.id.btnSearch);
 
+//
+//        btnSearch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                fetchArticles(etQuery.getText().toString());
+//            }
+//        });
 
-        btnSearch.setOnClickListener(new View.OnClickListener() {
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.article_search_menu, menu);
+        MenuItem searchArticle = menu.findItem(R.id.action_search);
+        searchArticle.expandActionView();
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchArticle);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View view) {
-                fetchArticles(etQuery.getText().toString());
+            public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
+                fetchArticles(query);
+                // Fire off a fragment with trending articles.
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
+
+        return super.onCreateOptionsMenu(menu);
     }
+
 
     private void fetchArticles(String query) {
         AsyncHttpClient client = new AsyncHttpClient();
@@ -86,5 +123,9 @@ public class MainArticleSearchActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
 
 }

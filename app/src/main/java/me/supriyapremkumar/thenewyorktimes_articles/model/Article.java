@@ -11,50 +11,21 @@ import java.util.ArrayList;
  * Created by supriya on 7/26/16.
  */
 public class Article implements Serializable{
-    String webUrl;
-    String articleTitle;
-
-    public String getWebUrl() {
-        return webUrl;
-    }
-
-    public String getArticleTitle() {
-        return articleTitle;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    String thumbnail;
-
-    public Article(JSONObject jsonObject) {
-        try {
-            this.webUrl = jsonObject.getString("web_url");
-//            this.headline = jsonObject.getString("headline");
-            JSONObject headline = jsonObject.getJSONObject("headline");
-            articleTitle = headline.getString("main");
-
-            JSONArray multimedia = jsonObject.getJSONArray("multimedia");
-            if (multimedia.length() > 0) {
-                JSONObject multimediaJson = multimedia.getJSONObject(0);
-                this.thumbnail = "http://www.nytimes.com/" + multimediaJson.getString("url");
-            } else {
-                this.thumbnail = "";
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    public static ArrayList<Article> fromJsonArray(JSONArray array) {
-        ArrayList<Article> results = new ArrayList<>();
+    public static ArrayList<Object> fromJsonArray(JSONArray array) {
+        ArrayList<Object> results = new ArrayList<>();
 
         for (int x = 0; x < array.length(); x++) {
             try {
-                results.add(new Article(array.getJSONObject(x)));
+                JSONObject article = array.getJSONObject(x);
+                JSONArray multimedia = article.getJSONArray("multimedia");
+                if (multimedia.length() > 0) {
+                    JSONObject multimediaJson = multimedia.getJSONObject(0);
+                    String thumbnail = "http://www.nytimes.com/" + multimediaJson.getString("url");
+                    results.add(new ImgArticle(article, thumbnail));
+                }
+                else {
+                    results.add(new TxtArticle(article));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
