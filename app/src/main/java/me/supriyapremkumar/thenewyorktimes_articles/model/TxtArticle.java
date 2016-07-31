@@ -21,6 +21,10 @@ public class TxtArticle implements Serializable {
     public String getArticleSnippet(){
         return articleSnippet;
     }
+
+    public String getWebUrl(){
+        return webUrl;
+    }
     public TxtArticle(JSONObject article) {
         try{
             this.webUrl = article.getString("web_url");

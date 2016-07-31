@@ -11,6 +11,11 @@ import java.util.ArrayList;
  * Created by supriya on 7/26/16.
  */
 public class Article implements Serializable{
+    public static String webUrl;
+
+    public static String getWebUrl(){
+        return webUrl;
+    }
     public static ArrayList<Object> fromJsonArray(JSONArray array) {
         ArrayList<Object> results = new ArrayList<>();
 
@@ -21,10 +26,14 @@ public class Article implements Serializable{
                 if (multimedia.length() > 0) {
                     JSONObject multimediaJson = multimedia.getJSONObject(0);
                     String thumbnail = "http://www.nytimes.com/" + multimediaJson.getString("url");
-                    results.add(new ImgArticle(article, thumbnail));
+                    ImgArticle imgArticle = new ImgArticle(article, thumbnail);
+                    webUrl = imgArticle.getWebUrl();
+                    results.add(imgArticle);
                 }
                 else {
-                    results.add(new TxtArticle(article));
+                    TxtArticle txtArticle = new TxtArticle(article);
+                    webUrl = txtArticle.getWebUrl();
+                    results.add(txtArticle);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
