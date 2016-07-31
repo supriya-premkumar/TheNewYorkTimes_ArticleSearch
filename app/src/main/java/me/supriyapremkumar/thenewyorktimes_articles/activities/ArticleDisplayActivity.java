@@ -6,15 +6,15 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import me.supriyapremkumar.thenewyorktimes_articles.Article;
+import me.supriyapremkumar.thenewyorktimes_articles.model.Article;
 import me.supriyapremkumar.thenewyorktimes_articles.R;
 
-public class ArticleActivity extends AppCompatActivity {
+public class ArticleDisplayActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article);
+        setContentView(R.layout.article_display_activity);
         Article article = (Article)getIntent().getSerializableExtra("article");
 
         WebView webView = (WebView)findViewById(R.id.wvArticle);

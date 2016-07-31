@@ -1,4 +1,4 @@
-package me.supriyapremkumar.thenewyorktimes_articles;
+package me.supriyapremkumar.thenewyorktimes_articles.model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,14 +12,14 @@ import java.util.ArrayList;
  */
 public class Article implements Serializable{
     String webUrl;
-    String headline;
+    String articleTitle;
 
     public String getWebUrl() {
         return webUrl;
     }
 
-    public String getHeadline() {
-        return headline;
+    public String getArticleTitle() {
+        return articleTitle;
     }
 
     public String getThumbnail() {
@@ -31,7 +31,9 @@ public class Article implements Serializable{
     public Article(JSONObject jsonObject) {
         try {
             this.webUrl = jsonObject.getString("web_url");
-            this.headline = jsonObject.getString("headline");
+//            this.headline = jsonObject.getString("headline");
+            JSONObject headline = jsonObject.getJSONObject("headline");
+            articleTitle = headline.getString("main");
 
             JSONArray multimedia = jsonObject.getJSONArray("multimedia");
             if (multimedia.length() > 0) {
