@@ -8,28 +8,28 @@ Time spent: **X** hours spent in total
 
 The following **required** functionality is completed:
 
-* [ ] User can **search for news article** by specifying a query and launching a search. Search displays a grid of image results from the New York Times Search API.
-* [ ] User can click on "settings" which allows selection of **advanced search options** to filter results
-* [ ] User can configure advanced search filters such as:
-  * [ ] Begin Date (using a date picker)
-  * [ ] News desk values (Arts, Fashion & Style, Sports)
-  * [ ] Sort order (oldest or newest)
-* [ ] Subsequent searches have any filters applied to the search results
-* [ ] User can tap on any image in results to see the full text of article **full-screen**
-* [ ] User can **scroll down to see more articles**. The maximum number of articles is limited by the API search.
+* [x] User can **search for news article** by specifying a query and launching a search. Search displays a grid of image results from the New York Times Search API.
+* [x] User can click on "settings" which allows selection of **advanced search options** to filter results
+* [x] User can configure advanced search filters such as:
+  * [x] Begin Date (using a date picker)
+  * [x] News desk values (Arts, Fashion & Style, Sports)
+  * [x] Sort order (oldest or newest)
+* [x] Subsequent searches have any filters applied to the search results
+* [x] User can tap on any image in results to see the full text of article **full-screen**
+* [x] User can **scroll down to see more articles**. The maximum number of articles is limited by the API search.
 
 The following **optional** features are implemented:
 
 * [ ] Implements robust error handling, [check if internet is available](http://guides.codepath.com/android/Sending-and-Managing-Network-Requests#checking-for-network-connectivity), handle error cases, network failures
-* [ ] Used the **ActionBar SearchView** or custom layout as the query box instead of an EditText
-* [ ] User can **share an article link** to their friends or email it to themselves
-* [ ] Replaced Filter Settings Activity with a lightweight modal overlay
-* [ ] Improved the user interface and experiment with image assets and/or styling and coloring
+* [x] Used the **ActionBar SearchView** or custom layout as the query box instead of an EditText
+* [x] User can **share an article link** to their friends or email it to themselves
+* [x] Replaced Filter Settings Activity with a lightweight modal overlay
+* [x] Improved the user interface and experiment with image assets and/or styling and coloring
 
 The following **bonus** features are implemented:
 
-* [ ] Use the [RecyclerView](http://guides.codepath.com/android/Using-the-RecyclerView) with the `StaggeredGridLayoutManager` to display improve the grid of image results
-* [ ] For different news articles that only have text or only have images, use [Heterogenous Layouts](http://guides.codepath.com/android/Heterogenous-Layouts-inside-RecyclerView) with RecyclerView
+* [x] Use the [RecyclerView](http://guides.codepath.com/android/Using-the-RecyclerView) with the `StaggeredGridLayoutManager` to display improve the grid of image results
+* [x] For different news articles that only have text or only have images, use [Heterogenous Layouts](http://guides.codepath.com/android/Heterogenous-Layouts-inside-RecyclerView) with RecyclerView
 * [ ] Apply the popular [Butterknife annotation library](http://guides.codepath.com/android/Reducing-View-Boilerplate-with-Butterknife) to reduce view boilerplate.
 * [ ] Use Parcelable instead of Serializable using the popular [Parceler library](http://guides.codepath.com/android/Using-Parceler).
 * [ ] Leverages the [data binding support module](http://guides.codepath.com/android/Applying-Data-Binding-for-Views) to bind data into layout templates.
@@ -41,15 +41,18 @@ The following **bonus** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [x] Added a horizontal recycler view to list out all the news_desk values.
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/f59wsBr.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
+** Direct Link: **
+http://i.imgur.com/f59wsBr.gif
 
 ## Notes
 
@@ -59,6 +62,8 @@ Describe any challenges encountered while building the app.
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+- com.wdullaer:materialdatetimepicker:2.3.0 DatePicker
+- com.jakewharton:butterknife:8.2.1 Butterknife
 
 ## License
 
