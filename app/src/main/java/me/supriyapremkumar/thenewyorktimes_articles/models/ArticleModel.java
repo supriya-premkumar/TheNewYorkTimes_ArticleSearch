@@ -1,4 +1,4 @@
-package me.supriyapremkumar.thenewyorktimes_articles.model;
+package me.supriyapremkumar.thenewyorktimes_articles.models;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by supriya on 7/26/16.
  */
-public class Article implements Serializable{
+public class ArticleModel implements Serializable{
     public static String webUrl;
 
     public static String getWebUrl(){
@@ -26,14 +26,14 @@ public class Article implements Serializable{
                 if (multimedia.length() > 0) {
                     JSONObject multimediaJson = multimedia.getJSONObject(0);
                     String thumbnail = "http://www.nytimes.com/" + multimediaJson.getString("url");
-                    ImgArticle imgArticle = new ImgArticle(article, thumbnail);
-                    webUrl = imgArticle.getWebUrl();
-                    results.add(imgArticle);
+                    ImgArticleModel imgArticleModel = new ImgArticleModel(article, thumbnail);
+                    webUrl = imgArticleModel.getWebUrl();
+                    results.add(imgArticleModel);
                 }
                 else {
-                    TxtArticle txtArticle = new TxtArticle(article);
-                    webUrl = txtArticle.getWebUrl();
-                    results.add(txtArticle);
+                    TxtArticleModel txtArticleModel = new TxtArticleModel(article);
+                    webUrl = txtArticleModel.getWebUrl();
+                    results.add(txtArticleModel);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

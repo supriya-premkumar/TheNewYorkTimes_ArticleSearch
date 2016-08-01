@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#aa2200</color>
     <color name="colorPrimaryDark">#333333</color>
-    <color name="colorAccent">#ffffff</color>
+    <color name="colorAccent">#2b6dad</color>
     <color name="colorMenuItem">#ffffff</color>
+    <color name="colorFragmentBackground">#eeeeee</color>
 </resources>

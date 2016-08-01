@@ -2,4 +2,10 @@
     <string name="app_name">The New York Times - Articles</string>
     <string name="enter_search_query">Enter search query</string>
     <string name="search">Search</string>
+    <string name="save_filter">Save Filter</string>
+    <string name="clear_filter">Clear Filter</string>
+    <string name="begin_date">Begin Date</string>
+    <string name="end_date">End Date</string>
+    <string name="sort">Sort By Oldest</string>
+    <string name="news_desk_selection">News Desk Selection</string>
 </resources>

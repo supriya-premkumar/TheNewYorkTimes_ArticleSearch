@@ -1,6 +1,7 @@
 package me.supriyapremkumar.thenewyorktimes_articles.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -23,12 +24,14 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 import me.supriyapremkumar.thenewyorktimes_articles.R;
-import me.supriyapremkumar.thenewyorktimes_articles.RecyclerViewAdapter;
-import me.supriyapremkumar.thenewyorktimes_articles.model.Article;
+import me.supriyapremkumar.thenewyorktimes_articles.adapters.ArticleRecyclerViewAdapter;
+import me.supriyapremkumar.thenewyorktimes_articles.fragments.FilterSettingsFragment;
+import me.supriyapremkumar.thenewyorktimes_articles.listeners.EndlessRecyclerViewScrollListener;
+import me.supriyapremkumar.thenewyorktimes_articles.models.ArticleModel;
 
 public class MainArticleSearchActivity extends AppCompatActivity {
     ArrayList<Object> articles = new ArrayList<>();
-    RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, articles);
+    ArticleRecyclerViewAdapter adapter = new ArticleRecyclerViewAdapter(this, articles);
     public String cachedQueryString = "";
     //public int page = 0;
 
@@ -42,22 +45,12 @@ public class MainArticleSearchActivity extends AppCompatActivity {
         StaggeredGridLayoutManager gridLayoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         gridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-
-
-        //LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         rvArticles.setLayoutManager(gridLayoutManager);
 
-//        RecyclerView.ItemDecoration itemDecorationHorixontal = new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL_LIST);
-//        RecyclerView.ItemDecoration itemDecorationVertical = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL_LIST);
-//        rvArticles.addItemDecoration(itemDecorationHorixontal);
-//        rvArticles.addItemDecoration(itemDecorationVertical);
         // Add the scroll listener
         rvArticles.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
-                //page += 1;
                 customLoadMoreDataFromApi(page);
 
             }
@@ -71,14 +64,7 @@ public class MainArticleSearchActivity extends AppCompatActivity {
     // Append more data into the adapter
     // This method probably sends out a network request and appends new data items to your adapter.
     public void customLoadMoreDataFromApi(int page) {
-        // Send an API request to retrieve appropriate data using the offset value as a parameter.
-        //  --> Deserialize API response and then construct new objects to append to the adapter
-        //  --> Notify the adapter of the changes
-        Log.d("MU HU Ha ha ha", "Page: " + String.valueOf(page));
-        //Toast.makeText(MainArticleSearchActivity.this, "Loading page " +  String.valueOf(offset), Toast.LENGTH_SHORT).show();
-        //int curSize = adapter.getItemCount();
         fetchArticles(cachedQueryString, page);
-        //adapter.notifyItemRangeInserted(curSize,articles.size() - 1 );
     }
 
     @Override
@@ -90,6 +76,16 @@ public class MainArticleSearchActivity extends AppCompatActivity {
         searchArticle.expandActionView();
 
         MenuItem filterIcon = menu.findItem(R.id.filter_results);
+
+        filterIcon.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                displayFilterFragment();
+                return true;
+            }
+        });
+
+
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchArticle);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -98,7 +94,6 @@ public class MainArticleSearchActivity extends AppCompatActivity {
                 cachedQueryString = query;
                 articles.clear();
                 fetchArticles(query, 0);
-                //adapter.notifyDataSetChanged();
                 searchView.clearFocus();
 
                 // Fire off a fragment with trending articles.
@@ -134,7 +129,7 @@ public class MainArticleSearchActivity extends AppCompatActivity {
                 try {
                     articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
                     //articles.clear();
-                    articles.addAll(Article.fromJsonArray(articleJsonResults));
+                    articles.addAll(ArticleModel.fromJsonArray(articleJsonResults));
                     adapter.notifyDataSetChanged();
                     Log.d("onSuccess: ", articles.toString());
                 } catch (JSONException e) {
@@ -150,7 +145,11 @@ public class MainArticleSearchActivity extends AppCompatActivity {
     }
 
 
-
-
+    private void displayFilterFragment(){
+        FragmentManager fm = getSupportFragmentManager();
+        FilterSettingsFragment filterSettingsFragment = FilterSettingsFragment.newInstance("Filter Results");
+        filterSettingsFragment.show(fm, "filter_settings_fragment");
+        //createNewTaskFragment.show(fm, "filter_settings_fragment");
+    }
 
 }

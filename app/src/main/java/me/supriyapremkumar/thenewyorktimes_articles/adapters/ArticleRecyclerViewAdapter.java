@@ -1,4 +1,4 @@
-package me.supriyapremkumar.thenewyorktimes_articles;
+package me.supriyapremkumar.thenewyorktimes_articles.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,14 +15,15 @@ import com.uncopt.android.widget.text.justify.JustifiedTextView;
 
 import java.util.List;
 
+import me.supriyapremkumar.thenewyorktimes_articles.R;
 import me.supriyapremkumar.thenewyorktimes_articles.activities.ArticleDisplayActivity;
-import me.supriyapremkumar.thenewyorktimes_articles.model.ImgArticle;
-import me.supriyapremkumar.thenewyorktimes_articles.model.TxtArticle;
+import me.supriyapremkumar.thenewyorktimes_articles.models.ImgArticleModel;
+import me.supriyapremkumar.thenewyorktimes_articles.models.TxtArticleModel;
 
 /**
  * Created by supriya on 7/29/16.
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ArticleRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static class ViewHolder1 extends RecyclerView.ViewHolder {
         public ImageView ivThumbnail;
@@ -95,7 +96,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int IMG_ARTICLE = 1, TXT_ARTICLE = 2;
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context, List<Object> articles) {
+    public ArticleRecyclerViewAdapter(Context context, List<Object> articles) {
         mArticles = articles;
         mContext = context;
     }
@@ -154,23 +155,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private void startArticleDisplayActivity(int position) {
         Intent intent = new Intent(getmContext(), ArticleDisplayActivity.class);
         Object article = mArticles.get(position);
-        if (article instanceof ImgArticle) {
-            intent.putExtra("url", ((ImgArticle) article).getWebUrl());
+        if (article instanceof ImgArticleModel) {
+            intent.putExtra("url", ((ImgArticleModel) article).getWebUrl());
         } else {
-            intent.putExtra("url", ((TxtArticle) article).getWebUrl());
+            intent.putExtra("url", ((TxtArticleModel) article).getWebUrl());
         }
 
         getmContext().startActivity(intent);
     }
 
     private void configureViewHolder(ViewHolder1 vh1, int position) {
-        ImgArticle imgArticle = (ImgArticle) mArticles.get(position);
-        if (imgArticle != null) {
-            vh1.gettvTitle().setText(imgArticle.getArticleTitle());
-            vh1.getTvSnippet().setText(imgArticle.getArticleSnippet());
+        ImgArticleModel imgArticleModel = (ImgArticleModel) mArticles.get(position);
+        if (imgArticleModel != null) {
+            vh1.gettvTitle().setText(imgArticleModel.getArticleTitle());
+            vh1.getTvSnippet().setText(imgArticleModel.getArticleSnippet());
             vh1.getivThumbnail().setImageResource(0);
 
-            String thumbnail = imgArticle.getThumbnail();
+            String thumbnail = imgArticleModel.getThumbnail();
             if (!TextUtils.isEmpty(thumbnail)) {
                 Picasso.with(getmContext()).load(thumbnail).resize(512, 256).into(vh1.getivThumbnail());
             }
@@ -178,10 +179,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void configureViewHolder(ViewHolder2 vh2, int position) {
-        TxtArticle txtArticle = (TxtArticle) mArticles.get(position);
-        if (txtArticle != null) {
-            vh2.gettvTitle().setText(txtArticle.getArticleTitle());
-            vh2.getTvSnippet().setText(txtArticle.getArticleSnippet());
+        TxtArticleModel txtArticleModel = (TxtArticleModel) mArticles.get(position);
+        if (txtArticleModel != null) {
+            vh2.gettvTitle().setText(txtArticleModel.getArticleTitle());
+            vh2.getTvSnippet().setText(txtArticleModel.getArticleSnippet());
         }
     }
 
@@ -193,9 +194,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        if (mArticles.get(position) instanceof ImgArticle) {
+        if (mArticles.get(position) instanceof ImgArticleModel) {
             return IMG_ARTICLE;
-        } else if (mArticles.get(position) instanceof TxtArticle) {
+        } else if (mArticles.get(position) instanceof TxtArticleModel) {
             return TXT_ARTICLE;
         }
         return -1;
