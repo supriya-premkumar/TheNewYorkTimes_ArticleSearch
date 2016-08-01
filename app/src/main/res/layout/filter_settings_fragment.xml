@@ -32,7 +32,7 @@
 
         <EditText
             android:id="@+id/begin_date"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:hint="@string/begin_date"
@@ -60,7 +60,7 @@
 
         <EditText
             android:id="@+id/end_date"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/end_date_icon"
@@ -97,6 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="18sp"
         android:gravity="center_horizontal"
         android:text="@string/news_desk_selection"
         android:textColor="@color/colorPrimaryDark"
@@ -108,5 +109,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/news_desk_selection_header"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="18dp"
         android:layout_marginTop="18dp" />
 </RelativeLayout>

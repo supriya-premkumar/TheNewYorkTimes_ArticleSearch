@@ -12,7 +12,7 @@ import android.view.View;
 /**
  * Created by supriya on 7/31/16.
  */
-public class DividerItemDecoration extends RecyclerView.ItemDecoration  {
+public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private static final int[] ATTRS = new int[]{
             android.R.attr.listDivider
     };

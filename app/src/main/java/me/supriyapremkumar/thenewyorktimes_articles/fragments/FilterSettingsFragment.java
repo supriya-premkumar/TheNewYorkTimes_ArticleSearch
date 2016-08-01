@@ -1,18 +1,28 @@
 package me.supriyapremkumar.thenewyorktimes_articles.fragments;
 
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
+
+import java.util.ArrayList;
 
 import me.supriyapremkumar.thenewyorktimes_articles.R;
+import me.supriyapremkumar.thenewyorktimes_articles.activities.MainArticleSearchActivity;
+import me.supriyapremkumar.thenewyorktimes_articles.adapters.NewsDeskRecyclerViewAdapter;
+import me.supriyapremkumar.thenewyorktimes_articles.models.NewsDeskModel;
 
 /**
  * Created by supriya on 7/31/16.
@@ -21,6 +31,8 @@ public class FilterSettingsFragment extends DialogFragment {
 
     private EditText beginDate;
     private EditText endDate;
+    NewsDeskRecyclerViewAdapter adapter;
+
 
     public FilterSettingsFragment() {
 
@@ -61,6 +73,25 @@ public class FilterSettingsFragment extends DialogFragment {
             }
         });
 
+        Switch sortSelector = (Switch) v.findViewById(R.id.switch_sort);
+        sortSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                MainArticleSearchActivity.FilterParams.sortOrder = "oldest";
+            }
+        });
+
+        RecyclerView rvNewsDesk = (RecyclerView) v.findViewById(R.id.news_desk_selector);
+
+        ArrayList<NewsDeskModel> newsDesk = NewsDeskModel.createNewsDeskModelList();
+        adapter = new NewsDeskRecyclerViewAdapter(getContext(), newsDesk);
+        StaggeredGridLayoutManager gridLayoutManager =
+                new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.HORIZONTAL);
+        gridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+
+        rvNewsDesk.setLayoutManager(gridLayoutManager);
+        gridLayoutManager.scrollToPosition(0);
+        rvNewsDesk.setAdapter(adapter);
 
 
         /**
@@ -71,7 +102,7 @@ public class FilterSettingsFragment extends DialogFragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.save:
-                        //saveTaskToDB();
+                        saveFilters();
                         return true;
                     case R.id.clear:
                         dismiss();
@@ -92,17 +123,8 @@ public class FilterSettingsFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    public void onResume() {
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((WindowManager.LayoutParams) params);
 
-        super.onResume();
-    }
-
-    private void displayCalendarFragment(final View dateView){
+    private void displayCalendarFragment(final View dateView) {
         final java.util.Calendar calendar = java.util.Calendar.getInstance();
         int yy = calendar.get(java.util.Calendar.YEAR);
         int mm = calendar.get(java.util.Calendar.MONTH);
@@ -113,11 +135,29 @@ public class FilterSettingsFragment extends DialogFragment {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 String date = String.valueOf(monthOfYear + 1) + " / "
                         + String.valueOf(dayOfMonth) + " / " + String.valueOf(year);
-                ((EditText)dateView).setText(date);
+                ((EditText) dateView).setText(date);
             }
         }, yy, mm, dd);
         datePicker.show();
 
     }
 
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        super.onDismiss(dialog);
+        final Activity activity = getActivity();
+        if (activity instanceof DialogInterface.OnDismissListener) {
+            ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
+        }
+    }
+
+
+    private void saveFilters() {
+
+        MainArticleSearchActivity.FilterParams.beginDate = beginDate.getText().toString();
+        MainArticleSearchActivity.FilterParams.endDate = endDate.getText().toString();
+        MainArticleSearchActivity.FilterParams.newsDesk = NewsDeskRecyclerViewAdapter.selectedNewsDesk;
+        dismiss();
+
+    }
 }
